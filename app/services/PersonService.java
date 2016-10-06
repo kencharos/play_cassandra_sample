@@ -8,52 +8,20 @@ import play.db.jpa.JPAApi;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-/**
- * Created by kentaro.maeda on 2016/10/06.
- */
-@Singleton
-public class PersonService {
+public interface PersonService {
 
-    private final JPAApi jpa;
+    /*
+    memo;
+    There is 2 way to bind a implemention.
+    1. Use @ImplmenetBy to interface. (Simple)
+    2. Wriete bind() to Module#configure. (Flexible)
+     */
 
-    @Inject
-    public PersonService(JPAApi jpa) {
-        this.jpa = jpa;
-    }
-
-    public void save(List<Person> persons) {
-
-        System.out.println("start  on " + Thread.currentThread().getName() );
-        try {
-            Thread.sleep(3000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        EntityManager em = jpa.em();
-        for(Person p : persons) {
-
-            if (p.getAge() < 0) {
-                throw new RuntimeException();
-            }
-
-            em.persist(p);
-
-        }
-
-        System.out.println("end service");
-    }
+    void save(List<Person> persons) ;
 
 
-    public void saveWithT(List<Person> persons) {
-        jpa.withTransaction(() -> {
-            save(persons);
-        });
-    }
+    void saveWithT(List<Person> persons) ;
 
-    public List<Person> all() {
-
-        EntityManager em = jpa.em();
-        return em.createQuery("select p from Person p", Person.class).getResultList();
-    }
+    List<Person> all();
 
 }
