@@ -12,7 +12,8 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   javaJpa,
-  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final" // replace by your jpa implementation
+  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final", // replace by your jpa implementation,
+  "com.squareup.okhttp" % "okhttp" % "2.7.2" % Test
 )
 
 PlayKeys.externalizeResources := false

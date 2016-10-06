@@ -14,3 +14,5 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET /persons controllers.DBTestController.allPersons
 POST /persons controllers.DBTestController.savePersons
+POST /persons/async controllers.DBTestController.savePersonsAsync
+POST /persons/async2 controllers.DBTestController.savePersonsAsyncInCustomPool

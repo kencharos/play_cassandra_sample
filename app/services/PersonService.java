@@ -22,6 +22,13 @@ public class PersonService {
     }
 
     public void save(List<Person> persons) {
+
+        System.out.println("start  on " + Thread.currentThread().getName() );
+        try {
+            Thread.sleep(3000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         EntityManager em = jpa.em();
         for(Person p : persons) {
 
@@ -32,6 +39,15 @@ public class PersonService {
             em.persist(p);
 
         }
+
+        System.out.println("end service");
+    }
+
+
+    public void saveWithT(List<Person> persons) {
+        jpa.withTransaction(() -> {
+            save(persons);
+        });
     }
 
     public List<Person> all() {
