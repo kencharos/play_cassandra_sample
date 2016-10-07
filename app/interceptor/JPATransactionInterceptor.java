@@ -1,5 +1,6 @@
 package interceptor;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -7,15 +8,10 @@ import play.db.jpa.JPAApi;
 
 
 public class JPATransactionInterceptor implements MethodInterceptor {
-    private Provider<JPAApi> jpaApiProvider;
-
-    public JPATransactionInterceptor(Provider<JPAApi> api) {
-        this.jpaApiProvider = api;
-    }
+    @Inject private JPAApi jpa;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        JPAApi jpa = jpaApiProvider.get();
         return jpa.withTransaction(() -> {
 
             System.out.println("em call:" + jpa.em().hashCode());

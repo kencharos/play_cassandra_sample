@@ -34,8 +34,11 @@ public class Module extends AbstractModule {
 
         bind(PersonService.class).to(PersonServiceImpl.class);
 
+        JPATransactionInterceptor interceptor = new JPATransactionInterceptor();
+        // injection to @Inject fields
+        requestInjection(interceptor);
         bindInterceptor(Matchers.any(), Matchers.annotatedWith(ServiceWithTransaction.class),
-                new JPATransactionInterceptor(getProvider(JPAApi.class)));
+                interceptor);
 
     }
 
