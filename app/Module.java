@@ -1,6 +1,11 @@
 import com.google.inject.AbstractModule;
 import java.time.Clock;
 
+import com.google.inject.Provider;
+import com.google.inject.matcher.Matchers;
+import interceptor.JPATransactionInterceptor;
+import interceptor.ServiceWithTransaction;
+import play.db.jpa.JPAApi;
 import services.*;
 
 /**
@@ -17,6 +22,8 @@ public class Module extends AbstractModule {
 
     @Override
     public void configure() {
+
+
         // Use the system clock as the default implementation of Clock
         bind(Clock.class).toInstance(Clock.systemDefaultZone());
         // Ask Guice to create an instance of ApplicationTimer when the
@@ -26,6 +33,10 @@ public class Module extends AbstractModule {
         bind(Counter.class).to(AtomicCounter.class);
 
         bind(PersonService.class).to(PersonServiceImpl.class);
+
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(ServiceWithTransaction.class),
+                new JPATransactionInterceptor(getProvider(JPAApi.class)));
+
     }
 
 }

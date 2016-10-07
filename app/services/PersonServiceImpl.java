@@ -2,6 +2,7 @@ package services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import interceptor.ServiceWithTransaction;
 import jpa.Person;
 import play.db.jpa.JPAApi;
 
@@ -40,11 +41,10 @@ public class PersonServiceImpl implements PersonService{
         System.out.println("end service");
     }
 
-
+    @ServiceWithTransaction
     public void saveWithT(List<Person> persons) {
-        jpa.withTransaction(() -> {
             save(persons);
-        });
+
     }
 
     public List<Person> all() {
