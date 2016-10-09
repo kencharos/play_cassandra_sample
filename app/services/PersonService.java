@@ -1,6 +1,6 @@
 package services;
 
-import extmodels.Person;
+import models.Person;
 
 import java.util.List;
 

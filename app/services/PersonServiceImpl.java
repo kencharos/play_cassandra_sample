@@ -3,7 +3,7 @@ package services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import interceptor.ServiceWithTransaction;
-import extmodels.Person;
+import models.Person;
 import play.db.jpa.JPAApi;
 
 import javax.persistence.EntityManager;
@@ -23,7 +23,7 @@ public class PersonServiceImpl implements PersonService{
         EntityManager em = jpa.em();
         System.out.println("start  on " + Thread.currentThread().getName() );
         try {
-            
+
             Thread.sleep(100L);
         } catch (InterruptedException e) {
             e.printStackTrace();

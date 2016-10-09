@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import extmodels.Person;
+import models.Person;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.BodyParser;
@@ -30,7 +30,7 @@ public class DBTestController extends Controller {
     public DBTestController(PersonService service) {
         this.service = service;
     }
-    //@play.db.jpa.Transactional
+    @play.db.jpa.Transactional
     public Result allPersons() {
         List<Person> list = service.all();
 
@@ -38,7 +38,7 @@ public class DBTestController extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    //@play.db.jpa.Transactional
+    @play.db.jpa.Transactional
     public Result savePersons() {
         System.out.println("Accept controller on " + Thread.currentThread().getName());
         List<Person> inputs =extract(request().body().asJson());

@@ -60,13 +60,13 @@ public class ApplicationTest {
 
     @Test
     public void testParallel() {
-        String url = "http://localhost:9000/persons/async";
-        int id = 5000280;
+        String url = "http://localhost:9000/persons";
+        int id = 20;
         ExecutorService es = Executors.newFixedThreadPool(10);
         CompletableFuture.allOf(
-                CompletableFuture.supplyAsync(() -> post(url, id+0,30),es),
-                CompletableFuture.supplyAsync(() -> post(url, id+1,10),es),
-                CompletableFuture.supplyAsync(() -> post(url, id+2,10),es)
+                CompletableFuture.supplyAsync(() -> post(url, id+0,20),es),
+                CompletableFuture.supplyAsync(() -> post(url, id+1,-20),es),
+                CompletableFuture.supplyAsync(() -> post(url, id+2,20),es)
         ).join();
 
 
