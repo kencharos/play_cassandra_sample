@@ -5,8 +5,9 @@
 
     <persistence-unit name="cassandra" >
         <provider>com.impetus.kundera.KunderaPersistence</provider>
+        <class>extmodels.Person</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-            <property name="kundera.annotations.scan.package" value="models"/>
             <property name="kundera.nodes" value="localhost" />
             <property name="kundera.port" value="9042" />
             <property name="kundera.keyspace" value="KunderaExamples" />

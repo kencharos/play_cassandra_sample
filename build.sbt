@@ -19,6 +19,8 @@ libraryDependencies ++= Seq(
   "com.squareup.okhttp" % "okhttp" % "2.7.2" % Test
 )
 
+unmanagedJars in Compile += file("extlib/extmodel.jar")
+
 routesGenerator := InjectedRoutesGenerator
 
 PlayKeys.externalizeResources := false

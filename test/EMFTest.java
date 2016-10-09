@@ -1,4 +1,4 @@
-import models.Person;
+import extmodels.Person;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;

@@ -40,8 +40,8 @@ public class ApplicationTest {
             = MediaType.parse("application/json; charset=utf-8");
 
 
-    String post(String url, int id){
-        RequestBody body = RequestBody.create(JSON, "[{\"name\":\"name\", \"age\":29, \"id\":\""+ id +"\"}]");
+    String post(String url, int id, int age){
+        RequestBody body = RequestBody.create(JSON, "[{\"name\":\"name\", \"age\":" + age +", \"id\":\""+ id +"\"}]");
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -64,7 +64,9 @@ public class ApplicationTest {
         int id = 5000280;
         ExecutorService es = Executors.newFixedThreadPool(10);
         CompletableFuture.allOf(
-                CompletableFuture.supplyAsync(() -> post(url, id+0),es)
+                CompletableFuture.supplyAsync(() -> post(url, id+0,30),es),
+                CompletableFuture.supplyAsync(() -> post(url, id+1,10),es),
+                CompletableFuture.supplyAsync(() -> post(url, id+2,10),es)
         ).join();
 
 
