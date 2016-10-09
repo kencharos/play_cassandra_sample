@@ -1,11 +1,7 @@
 package services;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import jpa.Person;
-import play.db.jpa.JPAApi;
+import models.Person;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 public interface PersonService {

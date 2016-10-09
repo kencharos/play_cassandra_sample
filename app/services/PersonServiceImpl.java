@@ -3,7 +3,7 @@ package services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import interceptor.ServiceWithTransaction;
-import jpa.Person;
+import models.Person;
 import play.db.jpa.JPAApi;
 
 import javax.persistence.EntityManager;
@@ -12,8 +12,7 @@ import java.util.List;
 @Singleton
 public class PersonServiceImpl implements PersonService{
 
-    private final JPAApi jpa;
-
+    private JPAApi jpa;
     @Inject
     public PersonServiceImpl(JPAApi jpa) {
         this.jpa = jpa;
@@ -21,23 +20,23 @@ public class PersonServiceImpl implements PersonService{
 
     public void save(List<Person> persons) {
 
+        EntityManager em = jpa.em();
         System.out.println("start  on " + Thread.currentThread().getName() );
         try {
             Thread.sleep(3000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        EntityManager em = jpa.em();
         for(Person p : persons) {
 
             if (p.getAge() < 0) {
+                em.getTransaction().rollback();
                 throw new RuntimeException();
             }
 
             em.persist(p);
 
         }
-
         System.out.println("end service");
     }
 
@@ -49,8 +48,7 @@ public class PersonServiceImpl implements PersonService{
 
     public List<Person> all() {
 
-        EntityManager em = jpa.em();
-        return em.createQuery("select p from Person p", Person.class).getResultList();
+        return jpa.em().createQuery("select p from Person p", Person.class).getResultList();
     }
 
 }

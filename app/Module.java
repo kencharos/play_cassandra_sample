@@ -1,12 +1,12 @@
 import com.google.inject.AbstractModule;
 import java.time.Clock;
 
-import com.google.inject.Provider;
+
 import com.google.inject.matcher.Matchers;
 import interceptor.JPATransactionInterceptor;
 import interceptor.ServiceWithTransaction;
-import play.db.jpa.JPAApi;
 import services.*;
+
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -35,11 +35,8 @@ public class Module extends AbstractModule {
         bind(PersonService.class).to(PersonServiceImpl.class);
 
         JPATransactionInterceptor interceptor = new JPATransactionInterceptor();
-        // injection to @Inject fields
         requestInjection(interceptor);
-        bindInterceptor(Matchers.any(), Matchers.annotatedWith(ServiceWithTransaction.class),
-                interceptor);
-
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(ServiceWithTransaction.class), interceptor);
     }
 
 }

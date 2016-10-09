@@ -1,13 +1,11 @@
 package controllers;
 
 import akka.actor.ActorSystem;
-import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import jpa.Person;
-import play.libs.Akka;
+import models.Person;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.BodyParser;
@@ -15,7 +13,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import services.PersonService;
 
-import javax.annotation.processing.Completion;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -33,16 +30,15 @@ public class DBTestController extends Controller {
     public DBTestController(PersonService service) {
         this.service = service;
     }
-    @play.db.jpa.Transactional
+    //@play.db.jpa.Transactional
     public Result allPersons() {
-
         List<Person> list = service.all();
 
         return ok(Json.toJson(list));
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    @play.db.jpa.Transactional
+    //@play.db.jpa.Transactional
     public Result savePersons() {
         System.out.println("Accept controller on " + Thread.currentThread().getName());
         List<Person> inputs =extract(request().body().asJson());

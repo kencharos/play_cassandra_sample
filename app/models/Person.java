@@ -1,13 +1,13 @@
-package jpa;
+package models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-/**
- * Created by kentaro.maeda on 2016/10/06.
- */
+
 @Entity
+@Table(name = "person", schema ="KunderaExamples@cassandra")
 public class Person {
 
     @Id
