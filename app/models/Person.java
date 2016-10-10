@@ -1,9 +1,6 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -18,6 +15,7 @@ public class Person {
 
     @Column
     private Integer age;
+
 
     public String getId() {
         return id;

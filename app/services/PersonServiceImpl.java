@@ -31,6 +31,7 @@ public class PersonServiceImpl implements PersonService{
         for(Person p : persons) {
 
             if (p.getAge() < 0) {
+                em.flush();
                 throw new RuntimeException();
             }
 
