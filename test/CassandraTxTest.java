@@ -1,11 +1,14 @@
 import models.Person;
 import models.TxResult;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -81,6 +84,32 @@ public class CassandraTxTest {
                 CompletableFuture.runAsync(() -> insertOne("1","n3",30), es),
                 CompletableFuture.runAsync(() -> insertOne("1","n4",40), es)
         ).join();
+    }
+
+    @Test
+    public void testSelectAfterInsertInTransaction() {
+
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        //tx.begin();
+
+        Person p = new Person();
+        p.setId("id");
+        p.setName("name");
+        p.setAge(78);
+
+        em.persist(p);
+
+        em.flush();
+        em.clear();
+        List<Person> ps = em.createQuery("select p from Person p where p.id = :id")
+                .setParameter("id", "id").getResultList();
+
+        assertThat("When transaction begin, result is 0, When not transaction, result is 1", ps.size(), is(0));
+
+        //tx.commit();
+        em.close();
+
     }
 
     @Test
