@@ -5,11 +5,7 @@ Play Java Cassandra sample
 
 Cassandra and Kundera sample.
 
-## tag
-
-### NORMAL_JDBC_SAMPLE  
-
-This is H2 DB IO sample, includes custom thread pool async IO.
+add QueryDsl Integration sample.
 
 ## library version
 
@@ -18,3 +14,19 @@ This is H2 DB IO sample, includes custom thread pool async IO.
 + kundera 3.6
     + with cassandra-ds-driver 3.1
 + cassandra 3.9
++ QueryDSL 3.7.4
+
+## Query DSL Integration
+
+For generate QueryDSL QXXX Class, run `querydsl` task in sbt.
+
+This generate QXXX class in app/models directory.
+
+This task defines in build.sbt.
+
+
+## tags
+
+### NORMAL_JDBC_SAMPLE
+
+This is H2 DB IO sample, includes custom thread pool async IO.

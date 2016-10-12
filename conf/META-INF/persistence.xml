@@ -20,6 +20,7 @@
 
             <property name="kundera.client.lookup.class"
                       value="com.impetus.kundera.client.cassandra.dsdriver.DSClientFactory" />
+            <property name="kundera.show.query" value="true" />
         </properties>
     </persistence-unit>
 </persistence>
