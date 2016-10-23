@@ -1,6 +1,7 @@
 package controllers;
 
 import akka.actor.ActorSystem;
+import auth.NeedLogin;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -11,6 +12,7 @@ import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import services.PersonService;
 
 import java.io.IOException;
@@ -37,8 +39,12 @@ public class DBTestController extends Controller {
         return ok(Json.toJson(list));
     }
 
+    /**
+     * This request need "user_id" Header.
+     */
     @BodyParser.Of(BodyParser.Json.class)
     @play.db.jpa.Transactional
+    @Security.Authenticated(NeedLogin.class)
     public Result savePersons() {
         System.out.println("Accept controller on " + Thread.currentThread().getName());
         List<Person> inputs =extract(request().body().asJson());
