@@ -53,13 +53,8 @@ public class CassandraTxTest {
         // memo return value is always 0, so that I don't know CQL is success or fail.
 
 
-        em.flush();
-        tx.commit();
-        em.close();
-
 
         System.out.println(String.format(query, id, name, age) + " res;" + i);
-        em = emf.createEntityManager();
         Person p = em.find(Person.class, id);
         if (p.getAge() == age && p.getName().equals(name)) {
             System.out.println("  this cql is success");
@@ -91,7 +86,7 @@ public class CassandraTxTest {
 
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        //tx.begin();
+        tx.begin();
 
         Person p = new Person();
         p.setId("id");
@@ -107,7 +102,7 @@ public class CassandraTxTest {
 
         assertThat("When transaction begin, result is 0, When not transaction, result is 1", ps.size(), is(0));
 
-        //tx.commit();
+        tx.commit();
         em.close();
 
     }
