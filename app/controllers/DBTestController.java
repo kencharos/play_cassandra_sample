@@ -1,6 +1,8 @@
 package controllers;
 
 import akka.actor.ActorSystem;
+import annotations.HogeProcess;
+import annotations.SomeProcess;
 import auth.NeedLogin;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -57,9 +59,14 @@ public class DBTestController extends Controller {
     // need to run Reqest on other thread.
     @Inject HttpExecutionContext ec;
 
+    @SomeProcess                          // first.
+    @HogeProcess("savePersonsAsync")   // second.
     public CompletionStage<Result> savePersonsAsync() throws IOException{
 
-        System.out.println("Accept controller async on " + Thread.currentThread().getName());
+        String valueFromCompsiteAction = ctx().args.get("hoge_key").toString();
+        System.out.println(valueFromCompsiteAction);
+
+        System.out.println("Accept controller" + valueFromCompsiteAction + Thread.currentThread().getName());
         return CompletableFuture.supplyAsync(() -> {
             List<Person> inputs =extract(request().body().asJson());
             service.saveWithT(inputs);
@@ -79,8 +86,15 @@ public class DBTestController extends Controller {
     @Inject ActorSystem akka;
 
 
+    @HogeProcess("savePersonsAsyncInCustomPool") //first
+    @SomeProcess                                      // second
     public CompletionStage<Result> savePersonsAsyncInCustomPool() throws IOException{
-        System.out.println("Accept controller async custom on " + Thread.currentThread().getName());
+
+        String valueFromCompsiteAction = ctx().args.get("hoge_key").toString();
+        System.out.println(valueFromCompsiteAction);
+
+        System.out.println("Accept controller" + valueFromCompsiteAction + Thread.currentThread().getName());
+
         Executor myExecutor = akka.dispatchers().lookup("my-context");
 
         // when use custom executor, dont use request() in function.
