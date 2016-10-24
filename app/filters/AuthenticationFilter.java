@@ -16,6 +16,9 @@ import java.util.function.Function;
 
 /**
  * apply http header authentication for all controller.
+ *
+ * and see Filters.java.
+ *
  */
 @Singleton
 public class AuthenticationFilter extends Filter {
@@ -42,9 +45,7 @@ public class AuthenticationFilter extends Filter {
             return CompletableFuture.completedFuture(Results.unauthorized("need user_id header"));
         }
 
-        return next.apply(requestHeader).thenApply(
-            result -> result.withHeader("X-ExampleFilter", "foo")
-        );
+        return next.apply(requestHeader);
     }
 
 }
