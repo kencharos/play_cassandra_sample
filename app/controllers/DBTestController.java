@@ -44,7 +44,7 @@ public class DBTestController extends Controller {
      */
     @BodyParser.Of(BodyParser.Json.class)
     @play.db.jpa.Transactional
-    @Security.Authenticated(NeedLogin.class)
+    // @Security.Authenticated(NeedLogin.class) replace to filter.
     public Result savePersons() {
         System.out.println("Accept controller on " + Thread.currentThread().getName());
         List<Person> inputs =extract(request().body().asJson());

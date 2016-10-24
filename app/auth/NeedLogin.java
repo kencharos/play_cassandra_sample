@@ -5,6 +5,9 @@ import play.mvc.Security;
 
 /**
  * Authentication example by Header.
+ *
+ * This class doesn't use. Replacea to Authentication filter.
+ *
  */
 public class NeedLogin extends Security.Authenticator {
 
