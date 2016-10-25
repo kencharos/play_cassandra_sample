@@ -21,7 +21,8 @@ libraryDependencies ++= Seq(
   "com.impetus.kundera.client" % "kundera-cassandra-ds-driver" % "3.6", // use datasax java driver
   "com.squareup.okhttp" % "okhttp" % "2.7.2" % Test,
   "com.mysema.querydsl" % "querydsl-jpa" % "3.7.4",
-  "com.mysema.querydsl" % "querydsl-apt" % "3.7.4"
+  "com.mysema.querydsl" % "querydsl-apt" % "3.7.4",
+  "org.webjars" % "superagent" % "1.4.0"
 )
 
 

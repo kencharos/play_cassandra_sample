@@ -6,6 +6,8 @@
     <persistence-unit name="cassandra" >
         <provider>com.impetus.kundera.KunderaPersistence</provider>
         <class>models.Person</class>
+        <class>models.User</class>
+        <class>models.LoginStatus</class>
         <class>models.TxResult</class><!-- Dummy of Lightweight transaction Native query return value. -->
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>

@@ -5,6 +5,7 @@ import play.mvc.Filter;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.AuthenticationService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,13 +24,16 @@ import java.util.function.Function;
 @Singleton
 public class AuthenticationFilter extends Filter {
 
+    private AuthenticationService auth;
+
     /**
      * @param mat This object is needed to handle streaming of requests
      * and responses.
      */
     @Inject
-    public AuthenticationFilter(Materializer mat) {
+    public AuthenticationFilter(Materializer mat, AuthenticationService auth) {
         super(mat);
+        this.auth  = auth;
     }
 
     @Override
@@ -37,12 +41,19 @@ public class AuthenticationFilter extends Filter {
         Function<RequestHeader, CompletionStage<Result>> next,
         RequestHeader requestHeader) {
 
-        System.out.println("debug call filter.");
+        // excludes login path.
+        if (requestHeader.uri().startsWith("/login") || requestHeader.uri().startsWith("/assets")) {
+            return next.apply(requestHeader);
+        }
 
-        String userId = requestHeader.getHeader("user_id");
+        String token = requestHeader.getHeader("authorization");
 
-        if (userId == null) {
-            return CompletableFuture.completedFuture(Results.unauthorized("need user_id header"));
+        if (token == null) {
+            return CompletableFuture.completedFuture(Results.unauthorized("need authorization token"));
+        }
+
+        if (!auth.isValidToken(token).isPresent()) {
+            return CompletableFuture.completedFuture(Results.unauthorized("token invalid or expires"));
         }
 
         return next.apply(requestHeader);

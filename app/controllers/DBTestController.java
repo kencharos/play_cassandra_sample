@@ -51,6 +51,7 @@ public class DBTestController extends Controller {
         System.out.println("Accept controller on " + Thread.currentThread().getName());
         List<Person> inputs =extract(request().body().asJson());
 
+
         service.save(inputs);
 
         return ok("ok");

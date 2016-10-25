@@ -1,0 +1,22 @@
+@()
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>login</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <script type="text/javascript" src="@routes.Assets.versioned("lib/superagent/1.4.0/superagent.js")"></script>
+
+    </head>
+    <body>
+
+        <form action="/login" method="post">
+            ID:<input type="text" name="id" id="id">
+            <br>
+            password:<input type="password" name="password" id="password">
+            <br>
+            <button>login</button>
+        </form>
+
+    </body>
+</html>

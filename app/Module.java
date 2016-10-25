@@ -33,6 +33,7 @@ public class Module extends AbstractModule {
         bind(Counter.class).to(AtomicCounter.class);
 
         bind(PersonService.class).to(PersonServiceImpl.class);
+        bind(AuthenticationService.class).to(AuthenticationServiceImpl.class);
 
         JPATransactionInterceptor interceptor = new JPATransactionInterceptor();
         requestInjection(interceptor);

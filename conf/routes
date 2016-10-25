@@ -16,3 +16,7 @@ GET /persons controllers.DBTestController.allPersons
 POST /persons controllers.DBTestController.savePersons
 POST /persons/async controllers.DBTestController.savePersonsAsync
 POST /persons/async2 controllers.DBTestController.savePersonsAsyncInCustomPool
+
+# login
+GET /login controllers.AuthenticationController.index()
+POST /login controllers.AuthenticationController.login()
