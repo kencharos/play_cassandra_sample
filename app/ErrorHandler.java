@@ -24,9 +24,4 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
         super(configuration, environment, sourceMapper, routes);
     }
 
-    @Override
-    protected CompletionStage<Result> onNotFound(RequestHeader request, String message) {
-        System.out.println("call handler");
-        return CompletableFuture.completedFuture(Results.redirect("/"));
-    }
 }

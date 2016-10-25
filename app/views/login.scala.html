@@ -5,18 +5,96 @@
         <title>login</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-        <script type="text/javascript" src="@routes.Assets.versioned("lib/superagent/1.4.0/superagent.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("lib/superagent/superagent.js")"></script>
+        <script type="text/javascript">
 
+            var request = window.superagent;
+            request.types.json = 'application/json'
+            request.types.text = 'text/plain'
+
+            function login() {
+                var id = document.getElementById("id").value;
+                var pass = document.getElementById("password").value;
+                request.post('/login')
+                 .type('json')
+                  .send({id:id, password:pass})
+                  .end(function(err, res) {
+                    if(res.status === 200) {
+                        document.getElementById("login_status").innerText = "OK";
+                        document.getElementById("login_token").innerText = res.text;
+                    } else {
+                        document.getElementById("login_status").innerText = "NG";
+                        document.getElementById("login_token").innerText = res.text;
+                    }
+                  })
+            }
+             function register() {
+                var json = document.getElementById("register_text").value;
+                var token = document.getElementById("login_token").innerText;
+                if (token == null || token =="") {
+                    token = "not_login";
+                }
+                request.post('/persons')
+                 .type('json')
+                 .set("Authorization", token)
+                  .send(json)
+                  .end(function(err, res) {
+                    if(res.status != 200) {
+                        window.alert("NG:" + res.text);
+                    }
+                  })
+            }
+             function search() {
+
+                var token = document.getElementById("login_token").innerText;
+                if (token == null || token =="") {
+                    token = "not_login";
+                }
+                request.get('/persons')
+                 .accept('json')
+                 .set("Authorization", token)
+                  .end(function(err, res) {
+
+                    if(res.status != 200) {
+                        window.alert("NG:" + res.text);
+                    } else {
+                        document.getElementById("search_text").value = res.text;
+                    }
+                  })
+            }
+
+            window.onload=function() {
+                document.getElementById("login").onclick=login
+                document.getElementById("register").onclick=register
+                document.getElementById("search").onclick=search
+            }
+
+
+        </script>
     </head>
     <body>
 
-        <form action="/login" method="post">
+        <div>
             ID:<input type="text" name="id" id="id">
             <br>
             password:<input type="password" name="password" id="password">
             <br>
-            <button>login</button>
-        </form>
+            <button id="login">login</button>
+        </div>
+        <div>login status:<span id="login_status"></span>:<span id="login_token"></span></div>
+        <div> <button id="register">Register persons</button>
+            <textarea id="register_text" rows="10" cols="60">
+[
+    {"id":"1", "name":"n1", "age":18},
+    {"id":"2", "name":"n2", "age":19}
+]
+            </textarea>
+        </div>
+        <div>
+            <button id="search">get all persons</button>
+            <textarea id="search_text" rows="10" cols="60">
+            </textarea>
+        </div>
 
     </body>
 </html>
